@@ -41,6 +41,11 @@ class Web_Model extends CI_Model
         $info = $this->db->get();
         return $info->result();
     }
+    public function get_category($id){
+        $this->db->where('id', $id);
+        $query = $this->db->get('tbl_category');
+        return $query->row();
+    }
 
     public function get_all_product_pagi($limit,$offset)
     {

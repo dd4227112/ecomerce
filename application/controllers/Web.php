@@ -60,6 +60,7 @@ class Web extends CI_Controller
         $this->pagination->initialize($config);
 
         $data                    = array();
+        $data['category'] ='';
         $data['get_all_product'] = $this->web_model->get_all_product_pagi($config['per_page'], $this->uri->segment('3'));
         $this->load->view('web/inc/header');
         $this->load->view('web/pages/product', $data);
@@ -87,6 +88,7 @@ class Web extends CI_Controller
     public function category_post($id)
     {
         $data                    = array();
+        $data['category'] = $this->db->where('id', $id)->get('tbl_category')->row();
         $data['get_all_product'] = $this->web_model->get_all_product_by_cat($id);
         $this->load->view('web/inc/header');
         $this->load->view('web/pages/product', $data);

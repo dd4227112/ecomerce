@@ -41,18 +41,6 @@
                         </a>
                     </div>
                 </div>
-                <?php
-                $customer_id = $this->session->userdata('customer_id');
-                if ($customer_id) {
-                    ?>
-                    <div class="login"><a href="<?php echo base_url('/customer/logout'); ?>">Logout</a></div>
-                <?php } else {
-                    ?>
-                    <div class="login"><a href="<?php echo base_url('/customer/login'); ?>">Login</a></div>
-
-                    <?php
-                }
-                ?>
                 <div class="clear"></div>
             </div>
             <div class="clear"></div>
@@ -76,6 +64,11 @@
                     }
                     ?>"><a href="<?php echo base_url('/cart'); ?>">Cart</a></li>
                     <?php } ?>
+                    <li class="<?php
+                if ($this->uri->uri_string() == 'about') {
+                    echo "active";
+                }
+                ?>"><a href="<?php echo base_url('/about'); ?>">About Us</a> </li>
                 <li class="<?php
                 if ($this->uri->uri_string() == 'contact') {
                     echo "active";
@@ -94,7 +87,13 @@
                     echo "active";
                 }
                 ?>"><a href="<?php echo base_url('/customer/register'); ?>">Register</a> </li>
-                
+                <?php } ?>
+                <?php if($this->session->userdata('customer_id')){?>
+                    <li class="<?php
+                if ($this->uri->uri_string() == 'customer/logout') {
+                    echo "active";
+                }
+                ?>"><a href="<?php echo base_url('/customer/logout'); ?>">Logout</a> </li>
                 <?php }?>
                 
             </ul>
