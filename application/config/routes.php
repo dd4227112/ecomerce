@@ -38,8 +38,8 @@ $route['check_email']                    = 'web/check_email';
 
 //Admin Panel Route
 $route['dashboard']            = 'admin/index';
-$route['manage/order']         = 'manageorder/manage_order';
-$route['order/details/(:num)'] = 'manageorder/order_details/$1';
+$route['manage/order']         = 'ManageOrder/manage_order';
+$route['order/details/(:num)'] = 'ManageOrder/order_details/$1';
 
 //Category  Route List
 $route['add/category']                = 'category/add_category';
@@ -72,8 +72,8 @@ $route['published/product/(:num)']   = 'product/published_product/$1';
 $route['unpublished/product/(:num)'] = 'product/unpublished_product/$1';
 
 //Admin login
-$route['admin']             = 'adminlogin';
-$route['admin_login_check'] = 'adminlogin/admin_login_check';
+$route['admin']             = 'AdminLogin';
+$route['admin_login_check'] = 'AdminLogin/admin_login_check';
 $route['logout']            = 'admin/logout';
 
 //Slider  Route List

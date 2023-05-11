@@ -889,12 +889,13 @@ button.grey:hover,
 }
 /*** Footer ***/
 .wrapper {
-	width: 78%;
+	width: 81%;
 	margin: 0 auto;
 	padding: 0 1%;
 }
 .footer {
-	position: relative;
+margin-left: 10%;
+margin-right: 10%;
 	background: #414045;
 	background: -moz-linear-gradient(top, #414045 55%, #2f2e33 100%);
 	background: -webkit-gradient(

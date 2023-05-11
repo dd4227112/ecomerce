@@ -15,7 +15,7 @@
                 <span><input type="radio" name="payment" value="cashon"/>Cash On Delivary</span><br/>
                 <span><input type="radio" name="payment" value="ssl"/>SSL Wocommerz</span><br/>
                 <span><input type="radio" name="payment" value="paypal"/>Paypal</span><br/><br/>
-                <div class="search"><div><button class="grey">Create Account</button></div></div>
+                <div class="search"><div><button class="grey">Create Order</button></div></div>
             </form>
            
         </div>  	
