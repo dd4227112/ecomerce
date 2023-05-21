@@ -1,0 +1,2 @@
+Jeans => Dress = 83.33%
+Dress => Jeans = 100%
