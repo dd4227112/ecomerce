@@ -495,13 +495,23 @@ class Apriori {
     
     public function printAssociationRules()
     {
-       echo 'Time: '.$this->arTime.' second(s)<br />===============================================================================<br />';
-        
+      $no=1; 
+      // echo 'Time: '.$this->arTime.' second(s)<br />===============================================================================<br />';
+      //   $this->load->library('database');
+        $dbconnect = mysqli_connect('localhost', 'root', '', 'ecommerce');
+        mysqli_query($dbconnect, "DELETE FROM items");
+
        foreach($this->rules as $a => $arr)
           {
              foreach($arr as $b => $conf)
-                { 
-                   echo "$a => $b = $conf%<br />";
+                {
+                  // $this->db->insert('items', ['name'=>$a]); 
+                  mysqli_query($dbconnect, "INSERT INTO items (name) VALUES ('".$a."')");
+                  mysqli_query($dbconnect, "INSERT INTO items (name) VALUES ('".$b."')");
+
+                  // $this->db->insert('items', ['name'=>$b]); 
+                   echo "<tr><td>".$no."</td><td>".$a." => ".$b."</td><td>".$conf."%</td></tr>";
+                   $no++;
                 }
           }
     }

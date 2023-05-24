@@ -71,4 +71,15 @@ class Web_model extends CI_Model
     public function insertShipping($shippingData){
       return   $this->db->insert('shipping_address', $shippingData);
     }
+    public function checkUser($username, $password){
+      $data =['username' =>$username,
+              'password' =>$password
+  ];
+      $query = $this->db->where($data)->get('customers');
+      return $query->row();
+  }
+  public function getCustomer($id){
+    $query = $this->db->get_where('customers', ['id'=>$id]);
+    return $query->row();
+  }
 }

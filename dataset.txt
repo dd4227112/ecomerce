@@ -4,3 +4,6 @@ Dress,Jeans
 Dress,Jeans
 Jeans,Dress
 T-Shirt,Sweater,Blouse,Jeans
+Jeans,T-Shirt
+
+Jeans,Dress

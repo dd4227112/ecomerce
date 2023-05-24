@@ -31,28 +31,8 @@ class Admin extends CI_Controller {
 
 		$this->load->view('admin/index');
 	}
-	function login(){
-		print_r($this->input->post());
-		$username =$this->input->post('username');
-		$password =sha1(md5($this->input->post('password')));
-		$check_user = $this->Admin_model->checkUser($username, $password);
-		if($check_user ){
-			$userdata =[
-				'name' =>$check_user->name,
-				'user_id' =>$check_user->id
-			];
-			$this->session->set_userdata($userdata);
-			redirect('Admin/dashboard');
-		}else{
-			$this->session->set_flashdata('error', "Error!! Login Failed. Username or Password Incorrect");
-            redirect($_SERVER['HTTP_REFERER']); 
-		}
-	}
-	function logout(){
-		unset($_SESSION['user_id']);
-		unset($_SESSION['name']);
-		return redirect('Admin/index');
-	}
+
+
 	function dashboard(){
 		$this->authenticate();
 		$this->load->view('admin/dashboard');
@@ -63,9 +43,7 @@ class Admin extends CI_Controller {
 		}
 		return true;
 	}
-	function profile(){
-		$this->authenticate();
-	}
+
 	############# PRODUCTS ######################
 	public function product($products =null){
 		$this->authenticate();
@@ -298,6 +276,91 @@ class Admin extends CI_Controller {
 		echo json_encode($data);
 	 }
 	############# USERS ######################
+	function profile(){
+		$this->authenticate();
+		$data['user']=$this->db->get_where('users', ['id'=>$this->session->userdata('user_id')])->row();
+		$this->load->view('admin/profile', $data);
+	}
+	public function saveProfileInfo(){
+		$id=$this->session->userdata('user_id');
+		if (!empty($_FILES['photo']['name'])) {
+			// An image is posted
+		
+			$config['upload_path']   = './admin_files/assets/images/';
+			$config['allowed_types'] = 'jpg|png|jpeg|svg|psd';
+			$config['max_size']      = 2048;
+		
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('photo')) {
+				$uploadedData = $this->upload->data();
+				$data = $this->input->post();
+				$data['photo'] = $uploadedData['file_name'];
+				$this->db->where('id', $id)->update('users', $data);
+				$this->session->set_flashdata('success', "User information updated successfully");
+			} else {
+				$error = $this->upload->display_errors();
+				$this->session->set_flashdata('error', $error);
+			}
+		}
+		else{ 
+			// No image is posted
+			$data = $this->input->post();
+			$this->db->where('id', $id)->update('users', $data);
+			$this->session->set_flashdata('success', "user information updated successfully");
+		}
+		return redirect('Admin/profile');
+	}
+	public function changePassword(){
+		$id =$this->session->userdata('user_id');
+		$this->load->view('admin/changePassword');
+		if ($_POST) {
+			$id =$this->session->userdata('user_id');
+			$new =$this->input->post('new');
+			$current =$this->input->post('current');
+			$confirm =$this->input->post('confirm');
+			if ($new!==$confirm) {
+			$this->session->set_flashdata('error', "Your Passwords do not match");
+			return redirect('Admin/changePassword');
+			}else{
+				$current =sha1(md5($current));
+				$old = $this->db->get_where('users', ['id'=>$id])->row();
+				if ($current != $old->password) {
+					$this->session->set_flashdata('error', "Incorrect current password");
+					return redirect('Admin/changePassword');
+				}else{
+					$new =sha1(md5($new));
+					$this->db->where('id', $id)->update('users', ['password'=>$new]);
+					$this->session->set_flashdata('success', "Your password changed successfully");
+					return redirect('Admin/changePassword');
+				}
+			}
+		}
+	}
+	function login(){
+		print_r($this->input->post());
+		$username =$this->input->post('username');
+		$password =sha1(md5($this->input->post('password')));
+		$check_user = $this->Admin_model->checkUser($username, $password);
+		if($check_user ){
+			$userdata =[
+				'name' =>$check_user->name,
+				'photo' =>$check_user->photo,
+				'user_id' =>$check_user->id
+			];
+			$this->session->set_userdata($userdata);
+			redirect('Admin/dashboard');
+		}else{
+			$this->session->set_flashdata('error', "Error!! Login Failed. Username or Password Incorrect");
+            redirect($_SERVER['HTTP_REFERER']); 
+		}
+	}
+
+	function logout(){
+		unset($_SESSION['user_id']);
+		unset($_SESSION['name']);
+		unset($_SESSION['photo']);
+		return redirect('Admin/index');
+	}
 
 
 	################ ASSOCIATIONS#############
@@ -325,6 +388,12 @@ class Admin extends CI_Controller {
 		$string = implode(',', $productIds);
 		
 		return $string;
+	} 
+	public function Recommendation(){
+		$data['most_sold_together'] =$this->db->query("select id, name from products where name in (select DISTINCT name from items)")->result();
+		$data['sold_separated'] =$this->db->query("select id, name from products where name not in (select DISTINCT name from items)")->result();
+		$this->load->view('admin/recommendation', $data);
+
 	}
 
 }

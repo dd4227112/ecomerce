@@ -27,7 +27,7 @@
 
     <!-- Checkout Start -->
 <div class="container-fluid pt-5">
-    <form action="<?=base_url('/Web/saveOrder')?>" method="post">
+    <form id = "customerOrder" action="<?=base_url('/Web/saveOrder')?>" method="post">
         <div class="row px-xl-5">
             <div class="col-lg-8">
                 <div class="mb-4">
@@ -35,19 +35,19 @@
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label>Full Name</label>
-                            <input class="form-control" name="customer_name" type="text" placeholder="John Bocco">
+                            <input class="form-control" value="<?=!empty($customer)?$customer->name:''?>" name="customer_name" type="text" placeholder="John Bocco">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>E-mail</label>
-                            <input class="form-control" name="customer_email" type="email" placeholder="example@email.com">
+                            <input class="form-control" value="<?=!empty($customer)?$customer->email:''?>"  name="customer_email" type="email" placeholder="example@email.com">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No</label>
-                            <input class="form-control"  name="customer_mobile" type="text" placeholder="+255 7456 789">
+                            <input class="form-control" value="<?=!empty($customer)?$customer->mobile:''?>"   name="customer_mobile" type="text" placeholder="+255 7456 789">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Address</label>
-                            <input class="form-control" name="customer_address"  type="text" placeholder="123 Street">
+                            <input class="form-control" value="<?=!empty($customer)?$customer->address:''?>"  name="customer_address"  type="text" placeholder="123 Street">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>
@@ -62,8 +62,9 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input class="form-control" name="customer_city"  type="text" placeholder="Dar Es Salaam">
+                            <input class="form-control" value="<?=!empty($customer)?$customer->city:''?>"  name="customer_city"  type="text" placeholder="Dar Es Salaam">
                         </div>
+                        <?php if (empty($customer)) {?>
                         <div class="col-md-6 form-group">
                             <label>Username</label>
                             <input class="form-control"  name="customer_username" type="text" placeholder="john_bocco">
@@ -78,6 +79,7 @@
                                 <label class="custom-control-label" for="newaccount">Create an account</label>
                             </div>
                         </div>
+                        <?php } ?>
                         <div class="col-md-12 form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" name="shipping_data" name="shipping_" id="shipto">
@@ -141,6 +143,7 @@
                         <?php
                         $sum+=($product->price*$product->quantity); }
                         }?>
+                        <input name="total_order" value=<?=$sum?> type ="hidden">
                         <hr class="mt-0">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>

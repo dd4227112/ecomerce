@@ -11,6 +11,42 @@
     <script src="<?=base_url('web_files/js/main.js')?>"></script>
     </body>
 </html>
+<!-- Login modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Customer Login</h4>
+                    <!-- <p class="card-description"> Horizontal form layout </p> -->
+                    <form class="forms-sample" action="<?=base_url('Web/Login')?>" method="POST">
+                      <div class="form-group row">
+                        <label for="name" class="col-sm-3 col-form-label">Username</label>
+                        <div class="col-sm-9">
+                          <input type="text"name ="username"  required class="form-control" id="username" placeholder=" username ">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="name" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-9">
+                          <input type="password"name ="password"  required class="form-control" id="password" placeholder="password ">
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary text-left">Login</button>
+                      <button type="button"  class="btn btn-secondary text-right" data-dismiss="modal">Close</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Login Modal -->
 <script>
     $(document).ready(function(){
         updateCart();
@@ -127,13 +163,49 @@
                     icon: 'success',
                     title: message,
                     showConfirmButton: false,
-                    timer: 1000
+                    timer: 2000
                 }).then(() => {
                 location.reload(); // Refresh the current page
                 });
         }
-});
+    $('#customerOrder').on('submit', function(e){
+        // e.preventDefault();
+        var name =  $("input[name =shipping_name]").val();
+        var email = $("input[name =shipping_email]").val();
+        var address = $("input[name =shipping_address]").val();
+        var city = $("input[name =shipping_city]").val();
+        var mobile = $("input[name =shipping_phone]").val(); 
+        var order =  $("input[name =total_order]").val(); 
+        if (order ==0) {
+            Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: "Please select at least one product to press an order",
+        });
+        return false;
+        }
+         
+        if ( $('#shipto').prop('checked') &&(name=='' || email =='' || address =='' || city=='' || mobile == '')) {
+            Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: "Please fill all fields/data for shipping address",
+        });
+        return false;
+        }else{
+            Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Order your order is sent',
+            showConfirmButton: false,
+            timer: 1000
+            }).then(() => {
+            $('#customerOrder').submit();
+            location.reload(); // Refresh the current page
+            });
 
+            }
 
-    
+    });
+});    
 </script>

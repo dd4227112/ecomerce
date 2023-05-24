@@ -35,7 +35,7 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="<?=base_url('admin_files/assets/images/faces/face1.jpg')?>" alt="image">
+                  <img src="<?=base_url('admin_files/assets/images/'.$this->session->userdata('photo'))?>" alt="image">
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -125,9 +125,8 @@
               </a>
               <div class="collapse" id="analysis-pages">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/Association')?>"> Ariori Algorithm </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> two </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> three </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/Association')?>"> Apriori Algorithm </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/Recommendation')?>"> Auto Recommendation </a></li>
                 </ul>
               </div>
             </li>
@@ -140,8 +139,8 @@
               </a>
               <div class="collapse" id="account-pages">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Profile </a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Change Password </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('/Admin/profile')?>"> Profile </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('/Admin/changePassword')?>"> Change Password </a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?=base_url('/Admin/logout')?>"> Signout </a></li>
                 </ul>
               </div>

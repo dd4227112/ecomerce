@@ -121,6 +121,9 @@ class Web extends CI_Controller {
 		echo json_encode($message);
 	}
 	public function checkout(){
+		if ($this->session->userdata('customer_id')!=NULL || $this->session->userdata('customer_name')!=NULL) {
+			$data['customer']= $this->Web_model->getCustomer($this->session->userdata('customer_id'));
+		}
 		$data['categories'] = $this->Web_model->getCategories();
 		$data['products'] = $this->Web_model->getCartProducts($this->session->userdata('id'));
 		$this->load->view('web/checkout', $data);
@@ -137,9 +140,12 @@ class Web extends CI_Controller {
 			'username' => $this->input->post('customer_username'),
 			'password' => sha1($this->input->post('customer_password')),
 		  );
-		  $customer_id =$this->Web_model->insertCustomer($customerData);
-
-
+		  if ($this->session->userdata('customer_id')!=NULL || $this->session->userdata('customer_name')!=NULL) {
+			$customer_id = $this->db->get_where('customers', ['id'=>$this->session->userdata('customer_id')])->row()->id;
+		}else{
+			$customer_id =$this->Web_model->insertCustomer($customerData);
+		}
+		  
 		//order data
 		$products = $this->Web_model->getCartProducts($this->session->userdata('id'));
 		$sum =0;
@@ -196,4 +202,27 @@ class Web extends CI_Controller {
 			return redirect('Web/index');
 			}	
 	  }
+	
+	function Login(){
+		print_r($this->input->post());
+		$username =$this->input->post('username');
+		$password =sha1(md5($this->input->post('password')));
+		$check_user = $this->Web_model->checkUser($username, $password);
+		if($check_user ){
+			$userdata =[
+				'customer_name' =>$check_user->name,
+				'customer_id' =>$check_user->id
+			];
+			$this->session->set_userdata($userdata);
+			redirect('Web/index');
+		}else{
+			$this->session->set_flashdata('error', "Error!! Login Failed. Username or Password Incorrect");
+            redirect($_SERVER['HTTP_REFERER']); 
+		}
+	}
+	function Logout(){
+		unset($_SESSION['customer_name']);
+		unset($_SESSION['customer_id']);
+		return redirect('Web/index');
+	}
 }

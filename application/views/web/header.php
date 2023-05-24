@@ -22,8 +22,14 @@
                             <a href="#" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
+                            <?php if ($this->session->userdata('customer_id')!=NULL || $this->session->userdata('customer_name')!=NULL) {
+                                echo "<a href='#' class='nav-item nav-link'> Welcome <b> ".$this->session->userdata('customer_name')."</b></a>";?>
+                            <a href="<?=base_url('Web/Logout')?>" class="nav-item nav-link">Logout</a>
+                                
+                            <?php } else {?>
+                            <a href="" data-toggle="modal" data-target="#exampleModalCenter" class="nav-item nav-link">Login</a>
                             <a href="" class="nav-item nav-link">Register</a>
+                            <?php }?>
                         </div>
                     </div>
                 </nav>
