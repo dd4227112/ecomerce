@@ -192,7 +192,7 @@
     <!-- Checkout End -->
 
     <!-- Footer Start -->
-    <?php include('footer.php');?>
+    <?php include('footer.php');?>david.daniel@shulesoft.africa
     <!-- Footer End -->
 
     <?php include('footer_link.php');?>

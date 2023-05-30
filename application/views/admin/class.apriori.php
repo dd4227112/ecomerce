@@ -13,7 +13,7 @@
 class Apriori {
     private $delimiter   = ','; 
     private $minSup      = 2; 
-    private $minConf     = 75; 
+    private $minConf     = 80; 
      
     private $rules       = array(); 
     private $table       = array(); 

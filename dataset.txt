@@ -1,4 +1,12 @@
 Dress,Jeans
+Jeans
+T-Shirt
+Jeans,Sweater
+Jeans,Dress
+Blouse
+Jeans
+Jeans
+Jeans
 Dress,Jeans
 Dress,Jeans
 Dress,Jeans
@@ -7,3 +15,4 @@ T-Shirt,Sweater,Blouse,Jeans
 Jeans,T-Shirt
 
 Jeans,Dress
+

@@ -1,2 +1,3 @@
-Dress => Jeans = 83.33%
-T-Shirt => Jeans = 100%
+Dress => Jeans = 85.71%
+T-Shirt => Jeans = 66.67%
+Sweater => Jeans = 100%

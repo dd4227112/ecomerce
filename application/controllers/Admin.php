@@ -35,7 +35,66 @@ class Admin extends CI_Controller {
 
 	function dashboard(){
 		$this->authenticate();
-		$this->load->view('admin/dashboard');
+		// Orders
+		$data['jan'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='01'")->row()->jan;
+		$data['feb'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='02'")->row()->jan;
+		$data['mar'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='03'")->row()->jan;
+		$data['apr'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='04'")->row()->jan;
+		$data['may'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='05'")->row()->jan;
+		$data['jun'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='06'")->row()->jan;
+		$data['jul'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='07'")->row()->jan;
+		$data['aug'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='08'")->row()->jan;
+		$data['sep'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='09'")->row()->jan;
+		$data['oct'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='10'")->row()->jan;
+		$data['nov'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='11'")->row()->jan;
+		$data['dec'] =$this->db->query("SELECT count(*)  as jan FROM orders where EXTRACT(MONTH FROM date)='12'")->row()->jan;
+		
+		// Payments
+		$data['jan_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='01'")->row()->jan;
+		$data['feb_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='02'")->row()->jan;
+		$data['mar_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='03'")->row()->jan;
+		$data['apr_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='04'")->row()->jan;
+		$data['may_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='05'")->row()->jan;
+		$data['jun_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='06'")->row()->jan;
+		$data['jul_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='07'")->row()->jan;
+		$data['aug_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='08'")->row()->jan;
+		$data['sep_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='09'")->row()->jan;
+		$data['oct_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='10'")->row()->jan;
+		$data['nov_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='11'")->row()->jan;
+		$data['dec_pay']=$this->db->query("SELECT count(*) as jan FROM order_payments where EXTRACT(MONTH FROM date)='12'")->row()->jan;
+ // top five products
+        $data['products'] = $this->db->query("select a.name, a.category_id, a.image, a.price, b.product_id, count(b.product_id) as count from order_items b join products a on a.id =b.product_id group by b.product_id order by count DESC LIMIT 5")->result();
+//recent orders
+		$data['orders'] = $this->Admin_model->getRecentOrders();
+		// top customers
+        $data['customers'] = $this->db->query("select a.*,  count(b.customer_id) as count from orders b join customers a on a.id =b.customer_id group by b.customer_id order by count DESC LIMIT 5;")->result();
+		$date = date('Y-m-d');
+		// Get the start date of the week (Monday)
+		$startDate = date('Y-m-d 00:00:00', strtotime('monday this week', strtotime($date)));
+
+		// Get the end date of the week (Sunday)
+		$endDate = date('Y-m-d 23:59:59', strtotime('sunday this week', strtotime($date)));
+
+		$data['weekly_sales'] = $this->db->query("SELECT sum(amount) as sum from order_payments where date >= '".$startDate."' AND  date <='".$endDate."'")->row();
+		$data['weekly_orders'] = $this->db->query("SELECT count(*) as orders from orders where date >= '".$startDate."' AND  date <='".$endDate."'")->row();
+
+		// Get the start date of the week (Monday)
+		$startDate = date('Y-m-d 00:00:00', strtotime('monday last week', strtotime($date)));
+
+		// Get the end date of the week (Sunday)
+		$endDate = date('Y-m-d 23:59:59', strtotime('sunday last week', strtotime($date)));
+		$data['weekly_sales_lastweek']= $this->db->query("SELECT sum(amount) as sum from order_payments where date >= '".$startDate."' AND  date <='".$endDate."'")->row();
+		$data['weekly_orders_lastweek']= $this->db->query("SELECT count(*) as orders from orders where date >= '".$startDate."' AND  date <='".$endDate."'")->row();
+
+		//totals
+		$data['order']= $this->db->query("SELECT count(*) as orders from orders")->row();
+		$data['customer']= $this->db->query("SELECT count(*) as customers from customers")->row();
+		$data['product']= $this->db->query("SELECT count(*) as products from products")->row();
+		$data['payment']= $this->db->query("SELECT sum(amount) as payments from order_payments")->row();
+
+
+
+		$this->load->view('admin/dashboard', $data);
 	}
 	public function authenticate(){
 		if($this->session->userdata('user_id')==NULL || $this->session->userdata('name')==NULL ){
@@ -47,6 +106,7 @@ class Admin extends CI_Controller {
 	############# PRODUCTS ######################
 	public function product($products =null){
 		$this->authenticate();
+		$data['header'] = 'My Products';
 		$data['products'] = $this->Web_model->getProducts();
 		$data['categories'] = $this->Admin_model->getCategories();
 		$this->load->view('admin/products', $data);
@@ -55,6 +115,7 @@ class Admin extends CI_Controller {
 		$this->authenticate();
 		$id = $this->uri->segment(3);
 		$data['products'] = $this->Web_model->getProductByCategories($id);
+		$data['header'] = 'Products in '.$this->db->get_where('categories', ['id'=>$id])->row()->name." Category";
 		$this->load->view('admin/products', $data);
 	}
 	 public function getProductByid(){
@@ -282,6 +343,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/profile', $data);
 	}
 	public function saveProfileInfo(){
+		$this->authenticate();
 		$id=$this->session->userdata('user_id');
 		if (!empty($_FILES['photo']['name'])) {
 			// An image is posted
@@ -311,6 +373,7 @@ class Admin extends CI_Controller {
 		return redirect('Admin/profile');
 	}
 	public function changePassword(){
+		$this->authenticate();
 		$id =$this->session->userdata('user_id');
 		$this->load->view('admin/changePassword');
 		if ($_POST) {
@@ -337,7 +400,6 @@ class Admin extends CI_Controller {
 		}
 	}
 	function login(){
-		print_r($this->input->post());
 		$username =$this->input->post('username');
 		$password =sha1(md5($this->input->post('password')));
 		$check_user = $this->Admin_model->checkUser($username, $password);
@@ -365,8 +427,9 @@ class Admin extends CI_Controller {
 
 	################ ASSOCIATIONS#############
 	public function Association(){
-
+		$this->authenticate();
 		$dataset = $this->db->query("SELECT id from orders")->result();
+		$setup['setups']= $this->db->get('setups')->row();
 		file_put_contents("dataset.txt", "");
 		foreach ($dataset as $key => $value) {
 			// echo $value->id."<br>";
@@ -378,7 +441,7 @@ class Admin extends CI_Controller {
 		file_put_contents("dataset.txt", $data, FILE_APPEND);
 		// print_r($items);
 		}
-		$this->load->view('admin/association');
+		$this->load->view('admin/association', $setup);
 	}
 	function separateOrderItems($orders){
 		$productIds = array_map(function($item) {
@@ -390,10 +453,41 @@ class Admin extends CI_Controller {
 		return $string;
 	} 
 	public function Recommendation(){
+		$this->authenticate();
 		$data['most_sold_together'] =$this->db->query("select id, name from products where name in (select DISTINCT name from items)")->result();
 		$data['sold_separated'] =$this->db->query("select id, name from products where name not in (select DISTINCT name from items)")->result();
 		$this->load->view('admin/recommendation', $data);
 
+	}
+	public function algorithmSetup(){
+		$this->authenticate();
+		if($_POST){
+			$data = $this->input->post();
+			$setups = $this->db->get('setups')->result();
+			if(empty($setups)){
+				$this->db->insert('setups', $data);
+			}
+			else{
+				$this->db->update('setups', $data);
+			}
+		}
+	$data['setups']= $this->db->get('setups')->result();
+		$this->load->view('admin/algorithmsetup', $data);
+	}
+	public function discount(){
+		$this->authenticate();
+		$products =$this->db->query("select id, name from products where name not in (select DISTINCT name from items)")->result();
+		$percentage = ($this->db->get('setups')->row()->discount_percentage/100);
+		foreach ($products as $key => $product) {
+			$this->db->query("UPDATE products set  old_price = price, price = (price -(".$percentage." * price)) where id = ".$product->id);
+			// echo "UPDATE products set  old_price = price, price = (price -(".$percentage." * price)) where id = ".$product->id;
+
+		}
+		$data['header'] = 'Discounted Products';
+		$data['categories'] = $this->Admin_model->getCategories();
+		$data['note'] ="<small><br>(after discount)</small>";
+		$data['products'] = $this->db->query("select * from products where name not in (select DISTINCT name from items)")->result();
+		$this->load->view('admin/products', $data);
 	}
 
 }

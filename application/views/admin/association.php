@@ -8,6 +8,7 @@
                     <div class="card-body">
                         <h4 class="card-title"><u>Product Association</u></h4>
                         <p>This show how product associate with each other, i.e How they often occur together in a single order /purchase</p>
+                        <a class="btn btn-sm bg-gradient-primary" href="discount">Generate Discount</a><br><br>
                         <table class="table table-hover">
                         <thead>
                             <tr class="bg-gradient-primary">
@@ -22,9 +23,9 @@
 
             $Apriori = new Apriori();
 
-            $Apriori->setMaxScan(20);       //Scan 2, 3, ...
-            $Apriori->setMinSup(2);         //Minimum support 1, 2, 3, ...
-            $Apriori->setMinConf(75);       //Minimum confidence - Percent 1, 2, ..., 100
+            $Apriori->setMaxScan($setups->scan);       //Scan 2, 3, ...
+            $Apriori->setMinSup($setups->support);         //Minimum support 1, 2, 3, ...
+            $Apriori->setMinConf($setups->confidence);       //Minimum confidence - Percent 1, 2, ..., 100
             $Apriori->setDelimiter(',');    //Delimiter 
 
             /*

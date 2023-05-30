@@ -23,6 +23,34 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<?php echo base_url('web_files/css/style.css');?>" rel="stylesheet">
         <script src="<?php echo base_url('web_files/swal/sweetalert2.all.min.js')?>"></script>
+        <style>
+           .pagination-links {
+            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination-links li {
+            display: inline;
+            margin-right: 5px;
+        }
+
+        .pagination-links a ,  .pagination-links strong{
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+
+        .pagination-links strong,
+        .pagination-links a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
 
     </head>
+
     <body>

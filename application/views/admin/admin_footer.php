@@ -17,11 +17,12 @@
     <script src="<?=base_url('admin_files/assets/js/misc.js')?>"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="<?=base_url('admin_files/assets/js/dashboard.js')?>"></script>
     <script src="<?=base_url('admin_files/assets/js/todolist.js')?>"></script>
     <!-- End custom js for this page -->
     <!-- file upload js -->
     <script src="<?=base_url('admin_files/assets/js/file-upload.js')?>"></script>
+    <script src="<?=base_url('DataTables/js/jquery.dataTables.js')?>"></script>
+
   </body>
 </html>
 <script>

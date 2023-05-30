@@ -27,6 +27,10 @@ public function checkUser($username, $password){
     $query =$this->db->query("SELECT a.*, a.id as order_id, b.* from orders a join customers b on a.customer_id =b.id order by a.date DESC");
     return $query->result();
  }
+ public function  getRecentOrders(){
+   $query =$this->db->query("SELECT a.*, a.id as order_id, b.* from orders a join customers b on a.customer_id =b.id order by a.date DESC LIMIT 5");
+   return $query->result();
+}
  public function orderPayments(){
     $query = $this->db->query("SELECT a.id, b.id as order_id, a.amount, b.amount as order_amount, (SELECT SUM(amount) FROM order_payments WHERE order_id = b.id) AS paid, (b.amount - (SELECT SUM(amount) FROM order_payments WHERE order_id = b.id)) as unpayed,
     CASE WHEN (b.amount - (SELECT SUM(amount) FROM order_payments WHERE order_id = b.id)) = 0 THEN 'Paid'

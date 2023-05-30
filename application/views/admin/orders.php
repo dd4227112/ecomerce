@@ -7,7 +7,7 @@
                     <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><u>Requested Orders</u></h4>
-                        <table class="table table-hover">
+                        <table id= "orders" class="table table-hover">
                         <thead>
                             <tr class="bg-gradient-primary">
                             <th> # </th>
@@ -145,8 +145,10 @@
 <?php include('admin_footer.php');?>
 <script>
 $(document).ready(function(){
+    $('#orders').DataTable();
 
-    $('.view_shipping').on('click', function(){
+
+    $(document).on('click','.view_shipping', function(){
         var order_id =$(this).attr("id");
         $.ajax({
               url: "<?=base_url('Admin/getOrderShippingAddress')?>",
@@ -189,7 +191,7 @@ $(document).ready(function(){
         });
     });
 
-    $('.view_order_items').on('click', function(){
+    $(document).on('click', '.view_order_items', function(){
          var order_id =$(this).attr("id");
         $.ajax({
               url: "<?=base_url('Admin/getOrderItems')?>",
@@ -215,7 +217,7 @@ $(document).ready(function(){
                     html += "<tr>" +
                         "<td>" + no + "</td>" +
                         "<td>" + response[i].name + "</td>" +
-                        "<td>" + stringDivider(response[i].description, 200, "<br/>\n") + "</td>" +
+                        "<td>" + stringDivider(response[i].description, 150, "<br/>\n") + "</td>" +
                         "<td>" + response[i].quantity + "</td>" +
                         "<td>" + response[i].price + "</td>" +
                         "<td>" + (response[i].price * response[i].quantity) + "</td>" +
@@ -234,8 +236,7 @@ $(document).ready(function(){
             }       
         });
     });
-
-    $('.add_payment').on('click', function(){
+      $(document).on('click', '.add_payment', function() {
         var order_id =$(this).attr("id");
         $('#order_id').val(order_id);
         $('#addPaymentModal').modal("show");

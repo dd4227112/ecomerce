@@ -6,7 +6,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title"><u>My products</u></h4>
+                        <h4 class="card-title"><u><?=$header?></u></h4>
                         <a href="#" class="btn btn-sm btn-primary  add_product"> New 
                         </a>
                         <br>
@@ -33,7 +33,7 @@
                             <th>Category </th>
                             <th> Description </th>
                             <th> Quantity </th>
-                            <th> Price(TZS) </th>
+                            <th> Price(TZS)<?=!empty($note)?$note:''?> </th>
                             <th> Old Price (TZS)</th>
                             <th> Actions </th>
                             </tr>

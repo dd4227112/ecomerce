@@ -18,7 +18,7 @@ class Web_model extends CI_Model
         return $query->result();
      }
      public function getSliders(){
-        $query = $this->db->query('SELECT a.*, b.display FROM products a JOIN sliders b on a.id =b.product_id order by b.display desc'); 
+        $query = $this->db->query('SELECT a.*, b.display, b.product_id FROM products a JOIN sliders b on a.id =b.product_id order by b.display desc'); 
        return $query->result();
      }
      public function getProductDetail($id){
@@ -29,8 +29,9 @@ class Web_model extends CI_Model
      }
      public function getOtherProducts($id){
       $this->db->where('id !=', $id);
-      $this->db->limit(4);
-      $query = $this->db->get('products');
+      $this->db->order_by('RAND()'); // RAND() function is used to order the records randomly
+        $this->db->limit(4);
+        $query = $this->db->get('products');
       return $query->result();
 
      }
@@ -47,10 +48,17 @@ class Web_model extends CI_Model
       $query = $this->db->get('reviews');
       return $query->result();
    }
-   public function getProductByCategories($id){
+   public function getProductByCategories($limit, $start, $id){
       $this->db->where('category_id', $id);
-      $query = $this->db->get('products');
-      return $query->result();
+      $this->db->limit($limit, $start);
+      $query = $this->db->get("products");
+      if ($query->num_rows() > 0) {
+          foreach ($query->result() as $row) {
+              $data[] = $row;
+          }
+          return $data;
+      }
+      return false;
    }
    public function searchProducts($keyword){
 		return $this->db->query("SELECT * FROM products WHERE name LIKE '%".$keyword."%'")->result();
@@ -82,4 +90,22 @@ class Web_model extends CI_Model
     $query = $this->db->get_where('customers', ['id'=>$id]);
     return $query->row();
   }
+  public function record_count() {
+    return $this->db->count_all('products');
+}
+public function count_products($id){
+  $this->db->where('category_id', $id);
+  return $this->db->count_all('products');
+}
+public function fetch_data($limit, $start) {
+  $this->db->limit($limit, $start);
+  $query = $this->db->get("products");
+  if ($query->num_rows() > 0) {
+      foreach ($query->result() as $row) {
+          $data[] = $row;
+      }
+      return $data;
+  }
+  return false;
+}
 }

@@ -22,6 +22,7 @@ class Web extends CI_Controller {
     {
         parent::__construct();
 		$this->load->model('Web_model');
+		$this->load->library('pagination');
 		$cartdata = array(
 			'id'  => session_create_id('cart'),
 		);
@@ -31,18 +32,45 @@ class Web extends CI_Controller {
     }
 	public function index()
 	{
-		$data['title']='Top products';
-		$data['categories'] = $this->Web_model->getCategories();
-		$data['products'] = $this->Web_model->getProducts();
+		
+		$config = array();
+        $config["base_url"] = base_url() . "Web/index";
+        $config["total_rows"] = $this->Web_model->record_count();
+        $config["per_page"] = 8;
+        $config["uri_segment"] = 3;
+		$config["prev_link"] = "&lt; Previous";
+		$config["next_link"] = "Next &gt;";
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $data["products"] = $this->Web_model->fetch_data($config["per_page"], $page);
+        $data["links"] = $this->pagination->create_links();
+	
+		$data['categories'] = $this->Web_model->getCategories($config["per_page"], $page);
+		$data['title'] = "Top Products";
 		$data['sliders'] = $this->Web_model->getSliders();
 		$this->load->view('web/index', $data);
 	}
 	public function categories(){
 		// unset($_SESSION['id']);
 		$id = $this->uri->segment('3');
+		$config = array();
+        $config["base_url"] = base_url() . "Web/categories/".$id."/";
+        $config["total_rows"] = $this->db->query('SELECT COUNT(*) as count FROM products where category_id ='.$id)->row()->count;
+        $config["per_page"] = 8;
+        $config["uri_segment"] = 4;
+		$config["prev_link"] = "&lt; Previous";
+		$config["next_link"] = "Next &gt;";
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $data["links"] = $this->pagination->create_links();
 		$data['title']= $this->db->query('SELECT name from categories where id ='.$id)->row()->name;
 		$data['categories'] = $this->Web_model->getCategories();
-		$data['products'] = $this->Web_model->getProductByCategories($id);
+		$data['products'] = $this->Web_model->getProductByCategories($config["per_page"], $page, $id);
 		$data['sliders'] = $this->Web_model->getSliders();
 		$this->load->view('web/product_categories', $data);
 	}
@@ -204,7 +232,6 @@ class Web extends CI_Controller {
 	  }
 	
 	function Login(){
-		print_r($this->input->post());
 		$username =$this->input->post('username');
 		$password =sha1(md5($this->input->post('password')));
 		$check_user = $this->Web_model->checkUser($username, $password);
@@ -214,15 +241,36 @@ class Web extends CI_Controller {
 				'customer_id' =>$check_user->id
 			];
 			$this->session->set_userdata($userdata);
-			redirect('Web/index');
+			$data =['message' =>"You now Login",
+			'icon'=>"success"];
+			echo json_encode($data);
 		}else{
-			$this->session->set_flashdata('error', "Error!! Login Failed. Username or Password Incorrect");
-            redirect($_SERVER['HTTP_REFERER']); 
+			$data =['message' =>"Incorrect Username or password",
+			'icon'=>"error"];
+			echo json_encode($data);
 		}
 	}
 	function Logout(){
 		unset($_SESSION['customer_name']);
 		unset($_SESSION['customer_id']);
 		return redirect('Web/index');
+	}
+	public function about(){
+		$data['categories'] = $this->Web_model->getCategories();
+		$data['products'] = $this->Web_model->getProducts();
+		$data['sliders'] = $this->Web_model->getSliders();
+	$this->load->view('web/about', $data);
+	}
+	public function contact(){
+		$data['categories'] = $this->Web_model->getCategories();
+		$data['products'] = $this->Web_model->getProducts();
+		$data['sliders'] = $this->Web_model->getSliders();
+		$this->load->view('web/contact', $data);
+	}
+	public function saveContact(){
+		$data = $this->input->post();
+		$this->db->insert('contacts', $data);
+		$message ="Thank!! Your request has received";
+		echo json_encode($message);
 	}
 }

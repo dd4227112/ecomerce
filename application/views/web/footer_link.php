@@ -22,7 +22,7 @@
                   <div class="card-body">
                     <h4 class="card-title">Customer Login</h4>
                     <!-- <p class="card-description"> Horizontal form layout </p> -->
-                    <form class="forms-sample" action="<?=base_url('Web/Login')?>" method="POST">
+                    <form class="form" id="Login" action="#" method="POST">
                       <div class="form-group row">
                         <label for="name" class="col-sm-3 col-form-label">Username</label>
                         <div class="col-sm-9">
@@ -35,7 +35,7 @@
                           <input type="password"name ="password"  required class="form-control" id="password" placeholder="password ">
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary text-left">Login</button>
+                      <button type="submit" class="btn btn-primary text-left login">Login</button>
                       <button type="button"  class="btn btn-secondary text-right" data-dismiss="modal">Close</button>
                     </form>
                   </div>
@@ -48,9 +48,19 @@
 </div>
 <!-- Login Modal -->
 <script>
-    $(document).ready(function(){
+    function loadSwal(message){
+        Swal.fire({
+            position: 'center',
+                icon: 'success',
+                title: message,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                location.reload(); // Refresh the current page
+        });
+    }
+$(document).ready(function(){
         updateCart();
-    });
     $('.searchProduct').on('click', function(){
 
         $('#search').submit();
@@ -94,7 +104,6 @@
             }
         });
     });
-    $(document).ready(function() {
         // Handle remove button click
         $('.link_hidden').hide();
         $('.show_link').on('mouseenter', function(){
@@ -130,9 +139,7 @@
                 }
             });
         });
-    });
 
-    $(document).ready(function() {
   // Handle update button click
   $('.btn-update-quantity').click(function() {
     // Get the input field associated with the update button
@@ -157,18 +164,7 @@
                 }
             });
   });
-        function loadSwal(message){
-            Swal.fire({
-                position: 'center',
-                    icon: 'success',
-                    title: message,
-                    showConfirmButton: false,
-                    timer: 2000
-                }).then(() => {
-                location.reload(); // Refresh the current page
-                });
-        }
-    $('#customerOrder').on('submit', function(e){
+   $('#customerOrder').on('submit', function(e){
         // e.preventDefault();
         var name =  $("input[name =shipping_name]").val();
         var email = $("input[name =shipping_email]").val();
@@ -207,5 +203,77 @@
             }
 
     });
+
+    $('#contactUs').on('submit', function(e){
+        e.preventDefault();
+        var name =  $("input[name =name]").val();
+        var email = $("input[name =email]").val();
+        var subject = $("input[name =subject]").val();
+        var message = $("textarea[name =message]").val();         
+        if (name=='' || email =='' || subject =='' || message=='') {
+            Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: "Please fill all fields",
+        });
+        return false;
+        }else{
+            $.ajax({
+                url: "<?=base_url('Web/saveContact')?>",
+                type: 'POST',
+                dataType: 'json',
+                data:{
+                    name:name, 
+                    email:email,
+                    subject:subject,
+                    message:message
+                },
+            success: function(response){
+                console.log(response)
+            Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: response,
+            showConfirmButton: false,
+            timer: 1000
+            }).then(() => {
+            location.reload(); // Refresh the current page
+            });
+        }
+    });
+
+            }
+
+    });
+
+    $('#Login').on('submit', function(e){
+        e.preventDefault();
+    // Get the input field associated with the update button
+    var username =  $("input[name =username]").val();
+    var password = $("input[name =password]").val();
+      $.ajax({
+                url: "<?=base_url('Web/Login')?>",
+                type: 'POST',
+                dataType: 'json',
+                data:{
+                    username:username, 
+                    password:password
+                },
+                success: function(response) {
+                    Swal.fire({
+                position: 'center',
+                icon: response.icon,
+                title: response.message,
+                showConfirmButton: false,
+                timer: 1500
+                }).then(() => {
+                location.reload(); // Refresh the current page
+                });
+              },
+                error: function(xhr, status, error) {
+                console.log("Error");
+                }
+            });
+  });
 });    
 </script>

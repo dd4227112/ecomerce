@@ -18,8 +18,8 @@
                                     <a href="checkout.html" class="dropdown-item">Checkout</a>
                                 </div>
                             </div> -->
-                            <a href="#" class="nav-item nav-link">About Us</a>
-                            <a href="#" class="nav-item nav-link">Contact</a>
+                            <a href="<?=base_url('Web/about')?>" class="nav-item nav-link">About Us</a>
+                            <a href="<?=base_url('Web/contact')?>" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <?php if ($this->session->userdata('customer_id')!=NULL || $this->session->userdata('customer_name')!=NULL) {

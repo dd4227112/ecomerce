@@ -23,7 +23,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3"><?=$slider->name?></h4>
                                     <h6 class=" text-white font-weight-semi-bold mb-4"><?=$slider->description?></h6>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                    <a href="<?=base_url('Web/product_detail/'.$slider->product_id)?>" class="btn btn-light py-2 px-3">Buy Now</a>
                                 </div>
                             </div>
                         </div>
@@ -65,6 +65,7 @@
         <!-- Products Start -->
         <?php include('products.php');?>
         <!-- Products End -->
+    </div>
 
 
         <!-- Subscribe Start -->

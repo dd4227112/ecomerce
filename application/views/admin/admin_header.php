@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<?=base_url('admin_files/assets/css/style.css')?>">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?=base_url('web_files/img/ecommerce.png')?>"/>
+    <link rel="stylesheet" href="<?=base_url('DataTables/css/jquery.dataTables.css')?>">
     <script src="<?php echo base_url('web_files/swal/sweetalert2.all.min.js')?>"></script>
   </head>
   <body>
@@ -125,8 +126,11 @@
               </a>
               <div class="collapse" id="analysis-pages">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/Association')?>"> Apriori Algorithm </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/algorithmSetup')?>">  Algorithm Setup </a></li>
+                  <?php if (!empty($this->db->get('setups')->result())){?>
+                  <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/Association')?>"> Product Association </a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?=base_url('Admin/Recommendation')?>"> Auto Recommendation </a></li>
+                  <?php }?>
                 </ul>
               </div>
             </li>
