@@ -498,7 +498,7 @@ class Apriori {
       $no=1; 
       // echo 'Time: '.$this->arTime.' second(s)<br />===============================================================================<br />';
       //   $this->load->library('database');
-        $dbconnect = mysqli_connect('localhost', 'root', '', 'ecommerce');
+        $dbconnect = mysqli_connect('localhost', 'root', 'mwesiGEMWE1', 'ecommerce');
         mysqli_query($dbconnect, "DELETE FROM items");
 
        foreach($this->rules as $a => $arr)

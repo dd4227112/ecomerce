@@ -134,6 +134,12 @@
                 </ul>
               </div>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?=base_url('Admin/manageUser')?>">
+                <span class="menu-title">Manage Users</span>
+                <i class="mdi mdi-currency-usd menu-icon"></i>
+              </a>
+            </li>
 
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="collapse" href="#account-pages" aria-expanded="false" aria-controls="general-pages">

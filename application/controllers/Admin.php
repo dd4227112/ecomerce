@@ -114,7 +114,7 @@ class Admin extends CI_Controller {
 	public function getProductByCategory(){
 		$this->authenticate();
 		$id = $this->uri->segment(3);
-		$data['products'] = $this->Web_model->getProductByCategories($id);
+		$data['products'] = $this->Web_model->getProductByCategories($per_page =null, $page =null, $id);
 		$data['header'] = 'Products in '.$this->db->get_where('categories', ['id'=>$id])->row()->name." Category";
 		$this->load->view('admin/products', $data);
 	}
@@ -341,6 +341,9 @@ class Admin extends CI_Controller {
 		$this->authenticate();
 		$data['user']=$this->db->get_where('users', ['id'=>$this->session->userdata('user_id')])->row();
 		$this->load->view('admin/profile', $data);
+	}
+	public function manageUser(){
+		echo "Manage user will be here";
 	}
 	public function saveProfileInfo(){
 		$this->authenticate();
