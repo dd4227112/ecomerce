@@ -343,7 +343,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/profile', $data);
 	}
 	public function manageUser(){
-		echo "Manage user will be here";
+		echo "Manage user will be here create and delete";
 	}
 	public function saveProfileInfo(){
 		$this->authenticate();
