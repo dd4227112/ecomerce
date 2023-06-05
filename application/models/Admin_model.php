@@ -53,4 +53,11 @@ public function checkUser($username, $password){
   public function getPaymentHistory($id){
    return $this->db->query("SELECT a.id, a.date, a.amount, a.payed_by, b.name from order_payments a join users b on a.created_by = b.id where a.order_id=".$id)->result();
   }
+  public function getUsers(){
+   $query =$this->db->get('users');
+   if ($query->num_rows() >0) {
+      return $query->result();
+   }
+   return false;
+  }
 }

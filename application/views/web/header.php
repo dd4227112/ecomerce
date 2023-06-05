@@ -28,7 +28,7 @@
                                 
                             <?php } else {?>
                             <a href="" data-toggle="modal" data-target="#exampleModalCenter" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
+                            <a href="" id="register_customer" class="nav-item nav-link">Register</a>
                             <?php }?>
                         </div>
                     </div>

@@ -28,7 +28,8 @@
 <script>
   $(document).ready(function(){
   
-      $('.close').click(function(){
+      $('.close').click(function(e){
+        e.preventDefault();
         $('#exampleModalCenter').modal("hide");
       });
 
@@ -67,6 +68,12 @@
         e.preventDefault();
         $('#viewPaymentHistory').modal("hide");
       });
+      $('.close_edit').click(function(e){
+        e.preventDefault();
+        $('#editUser').modal("hide");
+      });
+
+      
       
   });
 </script>
