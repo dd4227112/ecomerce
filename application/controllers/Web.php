@@ -81,6 +81,7 @@ class Web extends CI_Controller {
 		$data['product'] =$this->Web_model->getProductDetail($id);
 		$data['products'] =$this->Web_model->getOtherProducts($id);
 		$data['images'] =$this->Web_model->getProductImagases($id);
+		$data['links'] =null;
 		$data['total_reviews'] =$this->Web_model->countReviews($id);
 		$data['reviews'] =$this->Web_model->getProductReviews($id);
 		$data['links'] ="";
@@ -97,6 +98,7 @@ class Web extends CI_Controller {
 		else{
 			$data['title']='No Product Found';
 		}
+		$data['links'] =null;
 		$data['sliders'] = $this->Web_model->getSliders();
 		$this->load->view('web/search', $data);
 	}
@@ -273,5 +275,19 @@ class Web extends CI_Controller {
 		$this->db->insert('contacts', $data);
 		$message ="Thank!! Your request has received";
 		echo json_encode($message);
+	}
+	public function register(){
+		$data = $this->input->post();
+		$password = $this->input->post('password');
+		$password= sha1(md5($password));
+		$data['password'] = $password;
+		$userdata =[
+			'customer_name' =>$this->input->post('name'),
+			'customer_id' =>$this->Web_model->insertCustomer($data),
+		];
+		$this->session->set_userdata($userdata);
+		$response =['message' =>"You are welcome. You can continue with shopping",
+				'icon'=>"success"];
+		echo json_encode($response);
 	}
 }

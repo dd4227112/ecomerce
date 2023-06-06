@@ -137,7 +137,7 @@
             <li class="nav-item">
               <a class="nav-link" href="<?=base_url('Admin/manageUser')?>">
                 <span class="menu-title">Manage Users</span>
-                <i class="mdi mdi-currency-usd menu-icon"></i>
+                <i class="mdi mdi-account-multiple-outline menu-icon"></i>
               </a>
             </li>
 

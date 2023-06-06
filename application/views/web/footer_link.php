@@ -47,6 +47,71 @@
   </div>
 </div>
 <!-- Login Modal -->
+<!-- register modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Customer Register</h4>
+                    <!-- <p class="card-description"> Horizontal form layout </p> -->
+                    <form class="form" id="registerForm" action="#" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Full Name</label>
+                            <input class="form-control" name="name" required  type="text" placeholder="John">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" name="email" required  type="email" placeholder="example@email.com">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Mobile No</label>
+                            <input class="form-control" name="mobile" required  type="text" placeholder="+123 456 789">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Address</label>
+                            <input class="form-control" name="address" required  type="text" placeholder="123 Street">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Country</label>
+                            <select class="custom-select" name="country" >
+                                <option value="Tanzania" selected>Tanzania</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Uganda">Uganda</option>
+                                <option value="Burundi">Burundi</option>
+                                <option value="Rwanda">Rwanda</option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>City</label>
+                            <input class="form-control" type="text" required name="city"  placeholder="Dar Es Salaam">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Username</label>
+                        <input class="form-control" name="username" required type="text" placeholder="Username">
+                        </div><div class="col-md-6 form-group">
+                            <label>Password</label>
+                            <input class="form-control" name="password" required type="password" placeholder="">
+                        </div>
+                       
+                        <button type="button" class="btn btn-secondary text-right" data-dismiss="modal" >Close</button>
+                      <button type="submit" class="btn btn-primary text-left  register_btn" >Register</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- register Modal -->
 <script>
     function loadSwal(message){
         Swal.fire({
@@ -275,5 +340,34 @@ $(document).ready(function(){
                 }
             });
   });
+  $('#register_customer').on('click', function(e){
+        e.preventDefault();
+        $('#registerModal').modal('show');
+    });
+    $('#registerForm').submit(function(e){
+        e.preventDefault(); 
+        var data = $('#registerForm').serialize();
+        $.ajax({
+                url: "<?=base_url('Web/register')?>",
+                type: 'POST',
+                dataType: 'json',
+                data:data,
+                success: function(response) {
+                    Swal.fire({
+                    position: 'center',
+                    icon: response.icon,
+                    title: response.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                    }).then(() => {
+                    location.reload(); // Refresh the current page
+                    });
+              },
+                error: function(xhr, status, error) {
+                console.log("Error");
+                }
+            });
+    });
+  
 });    
 </script>

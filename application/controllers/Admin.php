@@ -343,7 +343,9 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/profile', $data);
 	}
 	public function manageUser(){
-		echo "Manage user will be here create and delete";
+		$data['header'] = 'Users';
+		$data['users'] = $this->Admin_model->getUsers();
+		$this->load->view('admin/users', $data);
 	}
 	public function saveProfileInfo(){
 		$this->authenticate();
@@ -425,6 +427,83 @@ class Admin extends CI_Controller {
 		unset($_SESSION['name']);
 		unset($_SESSION['photo']);
 		return redirect('Admin/index');
+	}
+	public function saveUser(){
+
+		if (!empty($_FILES['image']['name'])) {
+			// An image is posted
+			$config['upload_path']   = './admin_files/assets/images/'; // Same as specified in config.php
+			$config['allowed_types'] = 'jpg|png'; // Same as specified in config.php
+			$config['max_size']      = 2048; // Same as specified in config.php
+		
+			$this->load->library('upload', $config);
+	
+			if ($this->upload->do_upload('image')) {
+				$uploadedData = $this->upload->data();
+				$data = $this->input->post();
+				$password = $this->input->post('password');
+				$password = sha1(md5($password));
+				$data['password'] = $password;
+				$data['photo'] = $uploadedData['file_name'];
+				$this->db->insert('users', $data);
+				$this->session->set_flashdata('success', "User added successfully");
+			} else {
+				$error = $this->upload->display_errors();
+				$this->session->set_flashdata('error', $error);
+			}
+		} else {
+			// No image is posted
+			$data = $this->input->post();
+			$password = $this->input->post('password');
+			$password = sha1(md5($password));
+			$data['password'] = $password;
+			$this->db->insert('users', $data);
+			$this->session->set_flashdata('success', "User added successfully without photo");
+		}
+		return redirect('Admin/manageUser');
+	}
+	public function deleteUser(){
+		$id = $this->input->post('id');
+		if ($this->db->delete('users', ['id'=>$id])){
+			$message = ['message'=>'User deleted successfully'];
+			echo json_encode($message);
+		}
+		else{$message = ['message'=>'Error!!User not deleted'];
+			echo json_encode($message);
+		}
+	}
+	public function getUserByid(){
+		$id = $this->input->post('id');
+		$data = $this->db->get_where('users', ['id'=>$id])->row();
+		echo json_encode($data);
+	}
+	public function editUser(){
+		$user = $this->input->post('user_id');
+		$data = $this->input->post();
+		unset($data['user_id']);
+		if (!empty($_FILES['image']['name'])) {
+			// An image is posted
+			$config['upload_path']   = './admin_files/assets/images/'; // Same as specified in config.php
+			$config['allowed_types'] = 'jpg|png'; // Same as specified in config.php
+			$config['max_size']      = 2048; // Same as specified in config.php
+		
+			$this->load->library('upload', $config);
+	
+			if ($this->upload->do_upload('image')) {
+				$uploadedData = $this->upload->data();
+				$data['photo'] = $uploadedData['file_name'];
+				$this->db->where('id', $user)->update('users',$data);
+				$this->session->set_flashdata('success', "User added successfully");
+			} else {
+				$error = $this->upload->display_errors();
+				$this->session->set_flashdata('error', $error);
+			}
+		} else{
+			$this->db->where('id', $user)->update('users',$data);
+			$this->session->set_flashdata('success', "User update successfully");
+		}
+		return redirect('Admin/manageUser');
+
 	}
 
 
