@@ -83,6 +83,7 @@ class Web extends CI_Controller {
 		$data['images'] =$this->Web_model->getProductImagases($id);
 		$data['total_reviews'] =$this->Web_model->countReviews($id);
 		$data['reviews'] =$this->Web_model->getProductReviews($id);
+		$data['links'] ="";
 
 		$this->load->view('web/productdetatils', $data);
 	}

@@ -1,2 +1,2 @@
-Dress => Jeans = 75%
+Dress => Jeans = 87.5%
 Sweater => Jeans = 100%

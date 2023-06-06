@@ -364,9 +364,8 @@ class Apriori {
        $this->fiTime = $this->stopTimer($this->fiTime); 
     }
     
-    /**
-        1. قوانین نهایی را با توجه به مقدار حداقل کانفیندس محاسبه می کند
-    **/
+    
+        
     public function process($db)
     {
        $checked = $result = array();     
@@ -498,7 +497,7 @@ class Apriori {
       $no=1; 
       // echo 'Time: '.$this->arTime.' second(s)<br />===============================================================================<br />';
       //   $this->load->library('database');
-        $dbconnect = mysqli_connect('localhost', 'root', 'mwesiGEMWE1', 'ecommerce');
+        $dbconnect = mysqli_connect('localhost', 'root', '', 'ecommerce');
         mysqli_query($dbconnect, "DELETE FROM items");
 
        foreach($this->rules as $a => $arr)
