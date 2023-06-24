@@ -132,7 +132,7 @@ class Admin extends CI_Controller {
 		// print_r($_FILES['image']['name']);
 		// exit;
 		$config['upload_path']   = './web_files/img/'; // Same as specified in config.php
-        $config['allowed_types'] = 'jpg|png'; // Same as specified in config.php
+        $config['allowed_types'] = 'jpg|png|jpeg'; // Same as specified in config.php
         $config['max_size']      = 2048; // Same as specified in config.php
 
         $this->load->library('upload', $config);
@@ -171,7 +171,7 @@ class Admin extends CI_Controller {
 			// An image is posted
 	
 			$config['upload_path']   = './web_files/img/';
-			$config['allowed_types'] = 'jpg|png';
+			$config['allowed_types'] = 'jpg|png|jpeg';
 			$config['max_size']      = 2048;
 	
 			$this->load->library('upload', $config);
@@ -429,11 +429,18 @@ class Admin extends CI_Controller {
 		return redirect('Admin/index');
 	}
 	public function saveUser(){
+		$email = $this->input->post('email');
+		//check if email exist
+		$check = $this->db->query('SELECT email from users WHERE email ="'.$email.'"')->result();
+		if(!empty($check)){
+			$this->session->set_flashdata('error', "User with email <b>". $email."</b> already exist");
+			return redirect('Admin/manageUser');
+		} else{
 
 		if (!empty($_FILES['image']['name'])) {
 			// An image is posted
 			$config['upload_path']   = './admin_files/assets/images/'; // Same as specified in config.php
-			$config['allowed_types'] = 'jpg|png'; // Same as specified in config.php
+			$config['allowed_types'] = 'jpg|png|jpeg'; // Same as specified in config.php
 			$config['max_size']      = 2048; // Same as specified in config.php
 		
 			$this->load->library('upload', $config);
@@ -460,6 +467,7 @@ class Admin extends CI_Controller {
 			$this->db->insert('users', $data);
 			$this->session->set_flashdata('success', "User added successfully without photo");
 		}
+	}
 		return redirect('Admin/manageUser');
 	}
 	public function deleteUser(){
@@ -536,7 +544,7 @@ class Admin extends CI_Controller {
 	} 
 	public function Recommendation(){
 		$this->authenticate();
-		$data['most_sold_together'] =$this->db->query("select id, name from products where name in (select DISTINCT name from items)")->result();
+		$data['most_sold_together'] =$this->db->query("select  id, name from products where name in (select DISTINCT name from items)")->result();
 		$data['sold_separated'] =$this->db->query("select id, name from products where name not in (select DISTINCT name from items)")->result();
 		$this->load->view('admin/recommendation', $data);
 

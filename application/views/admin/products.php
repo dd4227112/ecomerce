@@ -197,7 +197,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Add New Product</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Edit Product</h5>
         </div>
         <div class="modal-body">
                     <form class="forms-sample" action="editProduct" method="POST" enctype="multipart/form-data">
@@ -223,6 +223,7 @@
                           <?php }
                           }?>
                         </select>
+                        
                       </div>
                       <div class="form-group">
                         <label>Product Image</label>
@@ -312,6 +313,9 @@ $(document).ready(function(){
                 $('#product_quantity').val(response.quantity);
                 $('#product_price').val(response.price);
                 $('#product_old_price').val(response.old_price);
+                $('#category_id').val(response.categoty_id);
+
+                
                 $('.product_product_id').val(response.id);                
                 $('#EditProductModal').modal("show");
               },

@@ -277,6 +277,15 @@ class Web extends CI_Controller {
 		echo json_encode($message);
 	}
 	public function register(){
+		$email = $this->input->post('email');
+		//check if email exist
+		$check = $this->db->query('SELECT email from customers WHERE email ="'.$email.'"')->result();
+		if(!empty($check)){
+			$response =['message' =>"User with email <b>". $email."</b> already exist",
+				'error'=>"success"];
+			echo json_encode($response);
+			return;
+		} else{
 		$data = $this->input->post();
 		$password = $this->input->post('password');
 		$password= sha1(md5($password));
@@ -289,5 +298,6 @@ class Web extends CI_Controller {
 		$response =['message' =>"You are welcome. You can continue with shopping",
 				'icon'=>"success"];
 		echo json_encode($response);
+	}
 	}
 }

@@ -24,13 +24,13 @@
                     <!-- <p class="card-description"> Horizontal form layout </p> -->
                     <form class="form" id="Login" action="#" method="POST">
                       <div class="form-group row">
-                        <label for="name" class="col-sm-3 col-form-label">Username</label>
+                        <label for="username" class="col-sm-3 col-form-label">Username</label>
                         <div class="col-sm-9">
                           <input type="text"name ="username"  required class="form-control" id="username" placeholder=" username ">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="name" class="col-sm-3 col-form-label">Password</label>
+                        <label for="password" class="col-sm-3 col-form-label">Password</label>
                         <div class="col-sm-9">
                           <input type="password"name ="password"  required class="form-control" id="password" placeholder="password ">
                         </div>

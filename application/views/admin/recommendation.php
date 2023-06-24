@@ -26,7 +26,7 @@
                  <?php } ?>
               </div>
 
-                <div class="alert alert-danger alert-dismissible"><br>The following  are rarely sold products .
+                <div class="alert alert-danger alert-dismissible"><b>The following  are rarely sold products.</b>
                 <?php
                   if(!empty($sold_separated)){
                      foreach ($sold_separated as $value) {?>

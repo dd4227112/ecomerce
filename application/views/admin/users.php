@@ -91,7 +91,7 @@
                       </div>
                       <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="text" required name="email" class="form-control" id="email" placeholder="user's email">
+                        <input type="email" required name="email" class="form-control" id="email" placeholder="user's email">
                       </div>
                       <div class="form-group">
                         <label for="description">Gender</label>
@@ -107,7 +107,7 @@
                       </div>
                       <div class="form-group">
                         <label for="password" >Password</label>
-                        <input type="text" name="password" required class="form-control" id="password">
+                        <input type="password" name="password" required class="form-control" id="password">
                       </div>
                       <div class="form-group">
                         <label>Photo</label>
