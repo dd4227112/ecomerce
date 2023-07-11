@@ -1,7 +1,7 @@
 Jeans
 Jeans
 
-Jeans,Sweater
+Jeans,blouse
 Jeans
 
 Jeans
@@ -13,7 +13,7 @@ Jeans
 Jeans
 Jeans
 Jeans
-Sweater,Jeans
+blouse,Jeans
 Jeans
 
 Jeans
@@ -22,3 +22,9 @@ Jeans
 Jeans
 
 
+
+
+Sweater
+Shirt
+Jeans,blouse
+blouse

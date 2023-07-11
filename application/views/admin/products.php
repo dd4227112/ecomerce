@@ -106,7 +106,7 @@
           <h5 class="modal-title" id="exampleModalLongTitle">Add New Product</h5>
         </div>
         <div class="modal-body">
-                    <form class="forms-sample" action="saveProduct" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" action="<?=base_url('Admin/saveProduct')?>" method="POST" enctype="multipart/form-data">
                       <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" name="name" required class="form-control" id="name" placeholder=" product Name">

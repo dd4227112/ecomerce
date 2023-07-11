@@ -38,7 +38,7 @@
                         <?php if(!empty($images)){?>
                         <?php foreach ($images as $key => $image) {?>
                         <div class="carousel-item">
-                            <img class="w-100 h-100" src="<?=base_url('web_files/img/'.$image->name)?>" alt="Image">
+                            <img class="w-50 h-50" src="<?=base_url('web_files/img/'.$image->name)?>" alt="Image">
                         </div>
                         <?php }
                          } ?>

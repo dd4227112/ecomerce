@@ -1,1 +1,1 @@
-Sweater => Jeans = 100%
+blouse => Jeans = 50%

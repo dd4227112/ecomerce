@@ -111,9 +111,11 @@ class Admin extends CI_Controller {
 		$data['categories'] = $this->Admin_model->getCategories();
 		$this->load->view('admin/products', $data);
 	}
+
 	public function getProductByCategory(){
 		$this->authenticate();
 		$id = $this->uri->segment(3);
+		$data['categories'] = $this->Admin_model->getCategories();
 		$data['products'] = $this->Web_model->getProductByCategories($per_page =null, $page =null, $id);
 		$data['header'] = 'Products in '.$this->db->get_where('categories', ['id'=>$id])->row()->name." Category";
 		$this->load->view('admin/products', $data);

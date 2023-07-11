@@ -1,1 +1,1 @@
-{Jeans,Sweater} = 2
+{Jeans,blouse} = 2
